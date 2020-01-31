@@ -1,2 +1,2 @@
 # rh_insights
-Red Hat Insights 
+Red Hat Insights Project
