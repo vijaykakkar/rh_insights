@@ -1,0 +1,10 @@
+- name: Red Hat Insights Upload
+  hosts: all
+  tasks:
+
+  - name: Run Insights To Collect and Upload Data
+    shell: insights-client
+    register: insights_collect
+
+  - name: Debug insights collect
+    debug: var=insights_collect
