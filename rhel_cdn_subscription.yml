@@ -1,0 +1,39 @@
+- name: Register Clients to Red Hat CDN
+  hosts: all
+
+  tasks:
+
+  - name: Unregister Any old Registrationn
+    redhat_subscription:
+      state: absent
+
+#  - name: Install Red Hat Satellite Consumer RPM
+#    shell: yum localinstall -y http://satellite6.example.com/pub/katello-ca-consumer-latest.noarch.rpm
+
+  - name: Run the registration on RHEL7 Clients
+    redhat_subscription:
+      state: present
+      org_id: "5665727"
+      activationkey: rhelbase
+    when: ansible_distribution_major_version == "7"
+
+  - name: Run the registration on RHEL8 Clients
+    redhat_subscription:
+      state: present
+      org_id: "5665727"
+      activationkey: rhelbase
+    when: ansible_distribution_major_version == "8"
+
+  - name: Install Satellite Agent and Red Hat Insights
+    yum:
+      name:
+        - katello-agent
+        - katello-host-tools-tracer
+        - insights-client
+      state: present
+
+  - name: Register RH Insights
+    shell: insights-client --register
+
+  - name: Collect insights data
+    shell: insights-client
