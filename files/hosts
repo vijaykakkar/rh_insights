@@ -1,0 +1,14 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.0.11 ansibletower-1.example.com
+192.168.0.16 ansibletower-2.example.com
+192.168.0.7 ansibletower-3.example.com
+192.168.0.12 dbnode.example.com
+192.168.0.22 rhel7-instance-1.example.com
+192.168.0.34 rhel7-instance-2.example.com
+192.168.0.5 rhel8-instance-1.example.com
+192.168.0.4 rhel8-instance-2.example.com
+192.168.0.10 fedoradev.example.com
+192.168.0.9 satellite6.example.com
+192.168.0.3 elk.example.com
+192.168.0.14 grafana.example.com

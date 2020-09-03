@@ -1,0 +1,47 @@
+- name: Register Clients to Red Hat Satellite
+  hosts: "{{ HOSTS }}"
+  tasks:
+
+  - name: Configure DNS Lookup
+    copy:
+      src: files/hosts
+      dest: /etc/hosts
+
+  - name: Install Red Hat Satellite Consumer RPM
+    shell: rpm -Uvh http://192.168.0.9/pub/katello-ca-consumer-latest.noarch.rpm
+
+
+  - name: Disable all the repos
+    shell: subscription-manager repos --disable='*'
+    ignore_errors: true
+
+  - name: Run the registration on RHEL7 Clients
+    redhat_subscription:
+      state: present
+      org_id: "RHCanada"
+      activationkey: "{{ key_name }}"
+      force_register: true
+    when: ansible_distribution_major_version == "7"
+
+  - name: Run the registration on RHEL8 Clients
+    redhat_subscription:
+      state: present
+      org_id: "RHCanada"
+      activationkey: "{{ key_name }}"
+      force_register: true
+    when: ansible_distribution_major_version == "8"
+
+  - name: Install Satellite Agent and Red Hat Insights
+    yum:
+      name:
+        - katello-agent
+        - katello-host-tools-tracer
+        - insights-client
+      state: present
+
+  - name: Register RH Insights
+    shell: insights-client --register
+
+  - name: Collect insights data
+    shell: insights-client
+

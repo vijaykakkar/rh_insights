@@ -1,0 +1,17 @@
+---
+- name: Manage Packages Across Hosts
+  hosts: "{{ HOSTS | default('web') }}"
+  become: true
+  gather_facts: false
+
+  tasks:
+  - name: Install/Uninstall/Upgrade Packages
+    yum:
+      name: "{{ package_name | default(omit) }}"
+      state: "{{ state }}"
+      exclude: kernel*
+
+    register: package_result
+
+  - name: Debug Packages
+    debug: var=package_result
