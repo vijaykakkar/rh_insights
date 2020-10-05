@@ -1,0 +1,25 @@
+- name: Install Apache WebServer
+  hosts: "{{ HOSTS }}"
+  tasks:
+  - name: Install HTTPD
+    yum:
+      name: httpd
+      state: present
+
+  - name: Enable Firewall Port
+    firewalld:
+      service: http
+      state: enabled
+      immediate: true
+      permanent: true
+
+  - name: Start and Enable HTTPD
+    service:
+      name: httpd
+      state: started
+      enabled: true
+
+  - name: Create Test Page
+    copy:
+      content: "Hello from {{ ansible_fqdn }}"\.
+      dest: /var/www/html/index.html
